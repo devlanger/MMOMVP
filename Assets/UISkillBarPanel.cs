@@ -33,29 +33,4 @@ public class UISkillBarPanel : MonoBehaviour
             });
         }
     }
-
-    private void Start()
-    {
-        PlayerController.Instance.OnLocalPlayerChanged += Instance_OnLocalPlayerChanged;
-    }
-
-    private void Instance_OnLocalPlayerChanged(Character obj)
-    {
-        obj.skills[SkillsContainerId.SKILLBAR].InventoryChanged += ItemsContainerButtons_InventoryChanged;
-    }
-
-    private void ItemsContainerButtons_InventoryChanged(ItemsContainer<SkillsContainerId, SkillData> obj)
-    {
-        for (int i = 0; i < button.Count; i++)
-        {
-            if (obj.Items.ContainsKey(i))
-            {
-                button[i].GetComponentInParent<SkillButton>().Fill(obj.Items[i]);
-            }
-            else
-            {
-                button[i].GetComponentInParent<SkillButton>().Fill(null);
-            }
-        }
-    }
 }

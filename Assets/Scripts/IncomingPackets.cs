@@ -66,11 +66,13 @@ public class IncomingPackets : MonoBehaviour
 
         byte containerId = reader.ReadByte();
         byte count = reader.ReadByte();
+        Debug.Log("Receive list " + itemsType  + " / " + containerId);
 
-        switch(itemsType)
+        switch (itemsType)
         {
             //items
             case 0:
+                Debug.Log("Receive items" + containerId);
                 var container = PlayerController.Instance.Character.containers[(ItemsContainerId)containerId];
                 container.Clear();
                 for (int i = 0; i < count; i++)
@@ -90,7 +92,8 @@ public class IncomingPackets : MonoBehaviour
                 {
                     int slot = reader.ReadInt32();
                     int id = reader.ReadInt32();
-                    skills.AddItem(slot, new SkillData() { id = id }, true);
+                    Debug.Log(slot + " / " + id);
+                    skills.AddItem(slot, new SkillData() { id = id, iconId = id, name = "Skill" + id }, true);
                 }
 
                 skills.Refresh();

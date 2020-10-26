@@ -10,6 +10,9 @@ public class SkillButton : MonoBehaviour
     [SerializeField]
     private Image icon;
 
+    [SerializeField]
+    private Text nameText;
+
     public void Fill(SkillData data)
     {
         this.skillData = data;
@@ -19,6 +22,12 @@ public class SkillButton : MonoBehaviour
         }
         else
         {
+            if(nameText != null)
+            {
+                nameText.text = data.name;
+            }
+            icon.sprite = FindObjectOfType<SpritesManager>().GetIcon(data.iconId);
+
             icon.GetComponent<CanvasGroup>().alpha = 1;
         }
     }
