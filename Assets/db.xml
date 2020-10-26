@@ -1,0 +1,7 @@
+<root>
+  <hostname>127.0.0.1</hostname>
+  <port>3306</port>
+  <username>root</username>
+  <password></password>
+  <database>mmomvp</database>
+</root>
