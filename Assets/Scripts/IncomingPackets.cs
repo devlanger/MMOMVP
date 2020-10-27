@@ -93,7 +93,7 @@ public class IncomingPackets : MonoBehaviour
                     int slot = reader.ReadInt32();
                     int id = reader.ReadInt32();
                     Debug.Log(slot + " / " + id);
-                    skills.AddItem(slot, new SkillData() { id = id, iconId = id, name = "Skill" + id }, true);
+                    skills.AddItem(slot, DataManager.Instance.GetSkill(id), true);
                 }
 
                 skills.Refresh();

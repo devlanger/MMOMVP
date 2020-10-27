@@ -1,6 +1,8 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using WebSocketMMOServer.Database;
@@ -9,6 +11,7 @@ public class SkillsSection
 {
     public SkillData editingData;
     public Dictionary<int, SkillData> skills = new Dictionary<int, SkillData>();
+    public string pathJson = "Assets/Resources/Data/skills.json";
 
     public void LoadMobs()
     {
@@ -32,7 +35,21 @@ public class SkillsSection
     public void EditObject(int id)
     {
         editingData = skills[id];
-        icon = GameObject.FindObjectOfType<SpritesManager>().GetIcon(editingData.iconId);
+        icon = SpritesManager.GetIcon(editingData.iconId);
+    }
+
+    public void SaveToJson()
+    {
+        string json = JsonConvert.SerializeObject(skills); 
+        using (FileStream fs = new FileStream(pathJson, FileMode.Create))
+        {
+            using (StreamWriter writer = new StreamWriter(fs))
+            {
+                writer.Write(json);
+            }
+        }
+
+        AssetDatabase.Refresh();
     }
 
     public void SaveEditedObject()
@@ -50,8 +67,8 @@ public class SkillsSection
         x = x.Remove(x.Length - 1);
         x2 = x2.Remove(x2.Length - 1);
 
-        int id = GameObject.FindObjectOfType<SpritesManager>().AddIfNotExist(icon);
-
+        int id = SpritesManager.AddIfNotExist(icon);
+        
         if (!newEntry)
         {
             DatabaseManager.InsertQuery(string.Format("INSERT INTO skill_proto(id, " + x2 + ") VALUES('{0}', '{1}', '{2}', '{3}') ON DUPLICATE KEY UPDATE id=VALUES(id)," + x,

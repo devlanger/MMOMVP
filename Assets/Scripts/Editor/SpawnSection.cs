@@ -59,4 +59,9 @@ public class SpawnSection
     }
 
     internal bool newEntry;
+
+    internal void RemoveObject(int key)
+    {
+        DatabaseManager.ReturnQuery(string.Format("DELETE FROM mobs WHERE id='{0}'", key));
+    }
 }

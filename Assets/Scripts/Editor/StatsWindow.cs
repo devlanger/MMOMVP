@@ -92,6 +92,9 @@ public class StatsWindow : EditorWindow
         mobs = new MobsSection();
         items = new ItemsSection();
         skills = new SkillsSection();
+
+        SpritesManager.Initialize();
+
         mobs.LoadMobs();
         items.LoadData();
         spawns.LoadMobs();
@@ -223,6 +226,11 @@ public class StatsWindow : EditorWindow
                                 EditorUtility.DisplayDialog("Error", "Can't load database: " + ex.ToString(), "Ok");
                             }
                         }
+                        
+                        if (GUILayout.Button("Save to JSON"))
+                        {
+                            items.SaveToJson();
+                        }
 
                         if (GUILayout.Button("Add"))
                         {
@@ -253,6 +261,8 @@ public class StatsWindow : EditorWindow
                         {
                             GUILayout.Label("Id");
                             GUILayout.Label(items.editingData.id.ToString());
+
+                            items.icon = (Sprite)EditorGUILayout.ObjectField("Icon", items.icon, typeof(Sprite), allowSceneObjects: false);
 
                             GUILayout.Label("Name");
                             items.editingData.name = GUILayout.TextField(items.editingData.name);
@@ -310,6 +320,14 @@ public class StatsWindow : EditorWindow
                                 spawns.newEntry = false;
                                 spawns.EditObject(item.Key);
                                 spawnsTab = 1;
+                            }
+                            if (GUILayout.Button("Delete", GUILayout.Width(60)))
+                            {
+                                if (EditorUtility.DisplayDialog("Delete entry", "Are you really want to delete this entry?", "Yes", "No"))
+                                {
+                                    spawns.RemoveObject(item.Key);
+                                    RefreshDatabase();
+                                }
                             }
                             GUILayout.Label(item.Key + ": " + item.Value.mobId + "[" + item.Value.pos.ToString() + "]");
                             GUILayout.EndHorizontal();
@@ -370,6 +388,10 @@ public class StatsWindow : EditorWindow
                                 EditorUtility.DisplayDialog("Error", "Can't load database: " + ex.ToString(), "Ok");
                             }
                         }
+                        if (GUILayout.Button("Save to JSON"))
+                        {
+                            skills.SaveToJson();
+                        }
 
                         if (GUILayout.Button("Add"))
                         {
@@ -410,7 +432,7 @@ public class StatsWindow : EditorWindow
                             GUILayout.Label("Id");
                             GUILayout.Label(skills.editingData.id.ToString());
 
-                            skills.icon = (Sprite)EditorGUILayout.ObjectField("Sprite", skills.icon, typeof(Sprite), allowSceneObjects: false);
+                            skills.icon = (Sprite)EditorGUILayout.ObjectField("Icon", skills.icon, typeof(Sprite), allowSceneObjects: false);
 
                             GUILayout.Label("Name");
                             skills.editingData.name = GUILayout.TextField(skills.editingData.name);

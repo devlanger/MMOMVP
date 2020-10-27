@@ -26,7 +26,7 @@ public class SkillButton : MonoBehaviour
             {
                 nameText.text = data.name;
             }
-            icon.sprite = FindObjectOfType<SpritesManager>().GetIcon(data.iconId);
+            icon.sprite = SpritesManager.GetIcon(data.iconId);
 
             icon.GetComponent<CanvasGroup>().alpha = 1;
         }

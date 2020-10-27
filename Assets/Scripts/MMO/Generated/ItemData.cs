@@ -6,4 +6,5 @@ public class ItemData
     public int id;
     public string name;
     public byte slot;
+    public int iconId;
 }

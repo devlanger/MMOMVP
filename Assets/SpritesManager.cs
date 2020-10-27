@@ -1,23 +1,24 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 
-public class SpritesManager : MonoBehaviour
+public class SpritesManager
 {
-    public List<IndexedIcon> icons = new List<IndexedIcon>();
+    public static IconsList Icons;
 
-    [System.Serializable]
-    public class IndexedIcon
+    public static void Initialize()
     {
-        public int id;
-        public Sprite icon;
+        Icons = Resources.Load<IconsList>("Data/icons");
     }
 
-    public Sprite GetIcon(int id)
+    public static Sprite GetIcon(int id)
     {
-        var ic = icons.Find(i => i.id == id);
-        if(ic == null)
+        var ic = Icons.icons.Find(i => i.id == id);
+        if (ic == null)
         {
             return null;
         }
@@ -25,9 +26,9 @@ public class SpritesManager : MonoBehaviour
         return ic.icon;
     }
 
-    public int AddIfNotExist(Sprite icon)
+    public static int AddIfNotExist(Sprite icon)
     {
-        var ic = icons.Find(i => i.icon.name == icon.name);
+        var ic = Icons.icons.Find(i => i.icon.name == icon.name);
 
         if (ic == null)
         {
@@ -37,8 +38,8 @@ public class SpritesManager : MonoBehaviour
                 icon = icon
             };
 
-            icons.Add(newIcon);
-            newIcon.id = icons.IndexOf(newIcon);
+            Icons.icons.Add(newIcon);
+            newIcon.id = Icons.icons.IndexOf(newIcon);
 
             return newIcon.id;
         }
@@ -46,5 +47,6 @@ public class SpritesManager : MonoBehaviour
         {
             return ic.id;
         }
+
     }
 }
