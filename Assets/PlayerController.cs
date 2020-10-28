@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(1f / 30f);
             if (Character != null)
             {
-                OutcomingPackets.SendPacket(ServerPacketType.MoveRequest, Character.transform.position.x, Character.transform.position.y, Character.transform.position.z);
+                OutcomingPackets.SendPacket(ServerPacketType.MoveRequest, (byte)Character.transform.eulerAngles.y, Character.transform.position.x, Character.transform.position.y, Character.transform.position.z);
             }
         }
     }

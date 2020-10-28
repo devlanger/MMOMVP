@@ -21,6 +21,7 @@ public class MobsManager : MonoBehaviour
     {
         Debug.Log("Add character: " + data.id);
         Character inst = Instantiate(basePrefab, new Vector3(data.pos.X, data.pos.Y, data.pos.Z), Quaternion.identity, transform);
+        inst.transform.rotation = Quaternion.Euler(0, data.rot, 0);
         inst.Initialize(data.id);
 
         Debug.Log("Mob id: " + data.mobId);

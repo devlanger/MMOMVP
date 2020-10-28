@@ -354,6 +354,9 @@ public class StatsWindow : EditorWindow
                             GUILayout.Label("Mob Id");
                             spawns.editingData.mobId = EditorGUILayout.IntField(spawns.editingData.mobId);
 
+                            GUILayout.Label("Rotation");
+                            spawns.editingData.rot = (short)EditorGUILayout.IntField(spawns.editingData.rot);
+
                             GUILayout.Label("Position");
                             GUILayout.BeginHorizontal();
                             spawns.editingData.pos.X = EditorGUILayout.FloatField(spawns.editingData.pos.X);

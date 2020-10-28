@@ -14,9 +14,10 @@ public class OutcomingPackets : MonoBehaviour
             case ServerPacketType.LoginRequest:
                 break;
             case ServerPacketType.MoveRequest:
-                writer.Write((float)args[0]);
+                writer.Write((byte)args[0]);
                 writer.Write((float)args[1]);
                 writer.Write((float)args[2]);
+                writer.Write((float)args[3]);
                 break;
             case ServerPacketType.ChatMessageRequest:
                 writer.Write((string)args[0]);

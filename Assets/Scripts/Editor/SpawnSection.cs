@@ -20,6 +20,7 @@ public class SpawnSection
             {
                 id = (uint)(int)row["id"],
                 mobId = (int)row["mob_id"],
+                rot = (short)row["rot"],
                 pos = new System.Numerics.Vector3((float)(double)row["x"], (float)(double)row["y"], (float)(double)row["z"]),
             };
 
@@ -34,7 +35,7 @@ public class SpawnSection
 
     public void SaveEditedObject()
     {
-        List<string> vals = new List<string>() { "mob_id", "x", "y", "z" };
+        List<string> vals = new List<string>() { "mob_id", "x", "y", "z", "rot" };
 
         string x = "";
         string x2 = "";
@@ -49,12 +50,12 @@ public class SpawnSection
 
         if (!newEntry)
         {
-            DatabaseManager.InsertQuery(string.Format("INSERT INTO mobs(id, " + x2 + ") VALUES('{0}', '{1}', '{2}', '{3}', '{4}') ON DUPLICATE KEY UPDATE id=VALUES(id)," + x,
-                editingData.id, editingData.mobId, editingData.pos.X, editingData.pos.Y, editingData.pos.Z));
+            DatabaseManager.InsertQuery(string.Format("INSERT INTO mobs(id, " + x2 + ") VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}') ON DUPLICATE KEY UPDATE id=VALUES(id)," + x,
+                editingData.id, editingData.mobId, editingData.pos.X, editingData.pos.Y, editingData.pos.Z, editingData.rot));
         }
         else
         {
-            DatabaseManager.InsertQuery(string.Format("INSERT INTO mobs(" + x2 + ") VALUES('{0}', '{1}', '{2}', '{3}')", editingData.mobId, editingData.pos.X, editingData.pos.Y, editingData.pos.Z));
+            DatabaseManager.InsertQuery(string.Format("INSERT INTO mobs(" + x2 + ") VALUES('{0}', '{1}', '{2}', '{3}', '{4}')", editingData.mobId, editingData.pos.X, editingData.pos.Y, editingData.pos.Z, editingData.rot));
         }
     }
 

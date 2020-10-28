@@ -6,5 +6,6 @@ public class SpawnData
 {
     public uint id;
     public int mobId;
+    public short rot;
     public Vector3 pos;
 }

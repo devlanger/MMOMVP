@@ -114,10 +114,12 @@ public class IncomingPackets : MonoBehaviour
         float x = reader.ReadSingle();
         float y = reader.ReadSingle();
         float z = reader.ReadSingle();
+        byte rot = reader.ReadByte();
 
         var m = MobsManager.Instance.GetCharacter(id);
         if(m != null)
         {
+            m.transform.rotation = Quaternion.Euler(0, (short)(rot * 5), 0);
             m.transform.position = new Vector3(x, y, z);
         }
     }
@@ -143,6 +145,7 @@ public class IncomingPackets : MonoBehaviour
     {
         uint id = reader.ReadUInt32();
         int baseId = reader.ReadInt32();
+        short rot = reader.ReadInt16();
         float x = reader.ReadSingle();
         float y = reader.ReadSingle();
         float z = reader.ReadSingle();
@@ -159,6 +162,7 @@ public class IncomingPackets : MonoBehaviour
         {
             id = id,
             mobId = baseId,
+            rot = rot,
             pos = new System.Numerics.Vector3(x, y, z)
         };
 
