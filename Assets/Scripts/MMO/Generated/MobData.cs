@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class MobData
 {
     public int id;
+    public string baseModel;
 
     public Dictionary<StatType, object> stats = new Dictionary<StatType, object>()
     {

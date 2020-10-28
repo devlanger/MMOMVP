@@ -147,6 +147,11 @@ public class StatsWindow : EditorWindow
                             }
                         }
 
+                        if (GUILayout.Button("Save to JSON"))
+                        {
+                            mobs.SaveToJson();
+                        }
+
                         if (GUILayout.Button("Add"))
                         {
                             mobs.editingData = new MobData();
@@ -185,6 +190,9 @@ public class StatsWindow : EditorWindow
 
                             GUILayout.Label("Lvl");
                             mobs.editingData.stats[StatType.LEVEL] = (byte)EditorGUILayout.IntField((byte)mobs.editingData.stats[StatType.LEVEL]);
+
+                            GUILayout.Label("Base Model");
+                            mobs.editingData.baseModel = EditorGUILayout.TextField(mobs.editingData.baseModel);
 
                             GUILayout.Label("Damage");
                             GUILayout.BeginHorizontal();

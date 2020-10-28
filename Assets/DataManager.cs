@@ -9,6 +9,7 @@ public class DataManager : MonoBehaviour
 
     private Dictionary<int, SkillData> skills = new Dictionary<int, SkillData>();
     private Dictionary<int, ItemData> items = new Dictionary<int, ItemData>();
+    private Dictionary<int, MobData> mobs = new Dictionary<int, MobData>();
 
     private void Awake()
     {
@@ -21,6 +22,19 @@ public class DataManager : MonoBehaviour
 
         var itemsRsrc = Resources.Load<TextAsset>("Data/items");
         items = JsonConvert.DeserializeObject<Dictionary<int, ItemData>>(itemsRsrc.text);
+
+        var mobsRsrc = Resources.Load<TextAsset>("Data/mobs");
+        mobs = JsonConvert.DeserializeObject<Dictionary<int, MobData>>(mobsRsrc.text);
+    }
+
+    public MobData GetMob(int id)
+    {
+        if (!mobs.ContainsKey(id))
+        {
+            return null;
+        }
+
+        return mobs[id];
     }
 
     public ItemData GetItem(int id)

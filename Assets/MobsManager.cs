@@ -22,8 +22,15 @@ public class MobsManager : MonoBehaviour
         Debug.Log("Add character: " + data.id);
         Character inst = Instantiate(basePrefab, new Vector3(data.pos.X, data.pos.Y, data.pos.Z), Quaternion.identity, transform);
         inst.Initialize(data.id);
-        characters.Add(inst.id, inst);
 
+        Debug.Log("Mob id: " + data.mobId);
+        MobData mob = DataManager.Instance.GetMob(data.mobId);
+        if(mob != null)
+        {
+            inst.GetComponent<ModelController>().Load("Mobs/" + mob.baseModel);
+        }
+
+        characters.Add(inst.id, inst);
         return inst;
     }
 

@@ -142,6 +142,7 @@ public class IncomingPackets : MonoBehaviour
     public static uint SpawnCharacter(BinaryReader reader)
     {
         uint id = reader.ReadUInt32();
+        int baseId = reader.ReadInt32();
         float x = reader.ReadSingle();
         float y = reader.ReadSingle();
         float z = reader.ReadSingle();
@@ -157,6 +158,7 @@ public class IncomingPackets : MonoBehaviour
         var data = new SpawnData()
         {
             id = id,
+            mobId = baseId,
             pos = new System.Numerics.Vector3(x, y, z)
         };
 

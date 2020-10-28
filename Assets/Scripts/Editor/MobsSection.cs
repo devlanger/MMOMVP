@@ -1,7 +1,10 @@
+using Microsoft.Win32.SafeHandles;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using WebSocketMMOServer.Database;
@@ -10,6 +13,7 @@ public class MobsSection
 {
     public MobData editingData;
     public Dictionary<int, MobData> mobs = new Dictionary<int, MobData>();
+    private string pathJson = "Assets/Resources/Data/mobs.json";
 
     public void LoadMobs()
     {
@@ -21,6 +25,7 @@ public class MobsSection
             MobData data = new MobData()
             {
                 id = (int)row["id"],
+                baseModel = (string)row["base_model"],
             };
 
             data.stats[StatType.NAME] = (string)row["name"];
@@ -38,9 +43,23 @@ public class MobsSection
         editingData = mobs[id];
     }
 
+    public void SaveToJson()
+    {
+        string json = JsonConvert.SerializeObject(mobs);
+        using (FileStream fs = new FileStream(pathJson, FileMode.Create))
+        {
+            using (StreamWriter writer = new StreamWriter(fs))
+            {
+                writer.Write(json);
+            }
+        }
+
+        AssetDatabase.Refresh();
+    }
+
     public void SaveEditedObject()
     {
-        List<string> vals = new List<string>() { "name", "health", "lvl", "min_dmg", "max_dmg" };
+        List<string> vals = new List<string>() { "name", "health", "lvl", "min_dmg", "max_dmg", "base_model" };
 
         string x = "";
         string x2 = "";
@@ -55,22 +74,24 @@ public class MobsSection
 
         if (!newEntry)
         {
-            DatabaseManager.InsertQuery(string.Format("INSERT INTO mobs_proto(id, " + x2 + ") VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}') ON DUPLICATE KEY UPDATE id=VALUES(id)," + x,
+            DatabaseManager.InsertQuery(string.Format("INSERT INTO mobs_proto(id, " + x2 + ") VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}') ON DUPLICATE KEY UPDATE id=VALUES(id)," + x,
                 editingData.id, 
                 (string)editingData.stats[StatType.NAME],
                 (int)editingData.stats[StatType.HEALTH],
                 (byte)editingData.stats[StatType.LEVEL],
                 (int)editingData.stats[StatType.MIN_DMG],
-                (int)editingData.stats[StatType.MAX_DMG]));
+                (int)editingData.stats[StatType.MAX_DMG],
+                editingData.baseModel));
         }
         else
         {
-            DatabaseManager.InsertQuery(string.Format("INSERT INTO mobs_proto(" + x2 + ") VALUES('{0}', '{1}', '{2}', '{3}', '{4}',)",
+            DatabaseManager.InsertQuery(string.Format("INSERT INTO mobs_proto(" + x2 + ") VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')",
                 (string)editingData.stats[StatType.NAME],
                 (int)editingData.stats[StatType.HEALTH],
                 (byte)editingData.stats[StatType.LEVEL],
                 (int)editingData.stats[StatType.MIN_DMG],
-                (int)editingData.stats[StatType.MAX_DMG]));
+                (int)editingData.stats[StatType.MAX_DMG],
+                editingData.baseModel));
         }
     }
 
